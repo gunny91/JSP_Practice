@@ -1,0 +1,298 @@
+[JSP 와 Servlet ]
+
+웹 브라우저를 열어보면?
+
+웹 브라우저는 네크워크 회선을 통해 다른 어떤 곳에 있는 컴퓨터로 웹 페이지를 보내달라고 요청을 하고, 그 컴퓨터는 해당 웹 페이지를 찾아서 우리의 컴퓨터로 보내준다.
+
+웹 브라우저의 요청을 받아 해당하는 웹 페이지를 찾아서 보내주는 일을 하는 컴퓨터(일을 하는 소프트웨어)를 웹 서버라고 한다.
+
+웹 브라우저가 웹 서버로 보내는 것은 URL이라는 웹 페이지의 주소이고,
+웹 서버가 웹 브라우저로 보내는 것은 HTML 문서라는 텍스트파일이다.
+
+웹 서버가 하는 일을 좀 더 정확히 표현하면, 웹 브라우저로부터 URL을 받아서 그에 해당하는 HTML문서를 찾아서 웹 브라우저로 보내주는 것이다.
+
+HTML문서는 순수하게 텍스트로만 이루어지며, <HTML>, </HTML>, <BODY>, </BODY>, <H1>, </H1>과 같이 꺽쇠괄호로 묶여진 부분을 태그(tag) 또는 마크업(markup)이라고 한다.
+
+태그는 웹 브라우저 상에 그대로 표시되는 것이 아니라 태그에 의해 싸여진 부분이 웹 브라우저 상에 어떻게 표시될지 지시하는 역할을 한다. 
+
+웹 페이지에는 텍스트 뿐만 아니라 그림이나 사진도 표시된다.
+
+HTML 문서의 태그 중에 <IMG>라는 것이 있는데, 이 태그 안에는 그림이나 사진의 URL을 쓸 수 있으며 웹 브라우저는 태그를 발견하면 웹 서버로 다시 URL을 보내고, 웹 서버는 그에 해당하는 이미지 파일을 찾아 웹 브라우저로 보낸다.
+
+그리고 똑같은 웹 서버로 똑같은 URL을 보내도 그때마다 다른 내용이 표시되는 경우도 있다.
+ex) 포털 사이트에는 신문 기사의 제목들이 표시되어 있는데, 이런 제목은 그 사이트로 접속할 때마다 다른 제목으로 바뀌어서 표시된다.
+웹 서버가 단순히 URL을 받아서 그에 해당하는 HTML문서를(또는 이미지 파일을) 찾아서 보내주는 일만 한다면 이런 일은 어떻게 가능한 걸까?
+
+웹 서버는 HTML 문서 파일을 찾아서 보내주는 일 뿐만 아니라 HTML 문서를 생성하는 프로그램을 호출해서 그 프로그램의 실행 결과를 보내주는 일도 한다.
+이때 호출 되는 프로그램을 “웹 애플리케이션”이라고 한다.
+웹 애플리케이션이 생성하는 HTML 문서를 동적 HTML 문서라고 하고, 웹 서버 쪽에 파일 형태로 저장되어 있는 HTML문서를 정적 HTML 문서라고 한다.
+
+웹 애플리케이션은 웹 서버와 동등하게 실행되는 독립적인 프로그램인가? 아니면 웹 서버에 종속된 모듈일까?
+이 두가지 형태 모두 존재한다.
+
+최초의 웹 애플리케이션 기술인 CGI(Common Gateway Interface)에서는 웹 애플리케이션을 웹 서버와 동등한 독립적인 프로그램 형태로 작성하였다.
+
+이런 독립적인 프로그램을 CGI프로그램이라고 했는데, 이 프로그램에는 커다란 문제점이 있었다.
+
+첫째 독립적인 프로그램을 실행하기 위해서는 시스템 자원이 많이 필요했고, 
+
+둘째 운영체제에 의해 별개로 취급되는 CGI프로그램의 실행 흐름을 웹 서버가 적절하게 제어할 수 없었다.
+
+그 결과 웹 서버로 아주 많은 URL요청이 한꺼번에 들어오면 너무 많은 CGI프로그램이 동시에 실행되어서 컴퓨터 전체가 다운되는 일이 빈번히 발생하였다.
+
+이런 문제로 인해 CGI 프로그램은 곧 커다란 골칫거리가 되었고, 얼마 지나지 않아 웹 서버의 모듈형태로 웹 애플리케이션을 만드는 새로운 기술이 개발되기 시작하였다.
+
+이때 등장한 기술 중 하나가 바로 Servlet이다.
+
+
+-------------------------------------------------------------------------------
+[서블릿 기술]
+Servlet이란 자바를 기반으로 하는 웹 애플리케이션 프로그래밍 기술이다.
+이 기술에서는 자바클래스 형태로 웹 애플리케이션을 작성하는데, 그 클래스를 서블릿 클래스라고 한다.
+
+<서블릿 클래스를 작성할 때 지켜야 할 규칙>
+규칙은 JCP(Java Community Process : 자바 표준 개발을 전담하는 기관)에서 제정한 서블릿 규격서(Servlet Specification)에 기술되어 있다.
+그 중 가장 기본적인 규칙 몇 가지를 알아보자.
+
+첫째, 서블릿 클래스는 javax.servlet 패키지에 속하는 Servlet인터페이스를 구현하도록 만들어야 한다. 이 인터페이스를 구현하는 클래스를 작성하는 것은 아주 복잡하고 번거로운 일이다. 그래서 서블릿 규격서에서는 그보다 더 쉬운 방법을 권장하고 있는데, 그것은 Servlet 인터페이스를 구현하는 javax.servlet.http.HttpServlet이라는 클래스의 서브클래스를 작성하는 방법이다. 그렇게 하면 그 서브클래스는 간접적으로 Servlet 인터페이스를 구현하게 되기 때문이다.
+
+둘째, doGet이나 doPost라는 메서드를 선언하고, 그 안에 서블릿 클래스가 호출되었을 때 해야 할 일을 써 넣어야 한다.
+이 메서드를 작성할 때 지켜야 할 규칙이 있는데 그것은 메서드의 파라미터와 익셉션에 관한 것이다.
+이 두 메서드는 각각 두 개의 파라미터를 받아야 하는데, 
+첫 번째 파라미터는 javax.servlet.http.HttpServletRequest 타입이어야 하고,
+두 번째 파라미터는 javax.servlet.http.HttpServletRespons 타입이어야 한다.
+그리고 메서드 밖으로 java.io.IOException과 javax.servlet.ServletException을 던질 수 있도록 선언해야 한다.
+
+셋째, 동적 HTML 문서를 생성하기 위해서는 doGet, doPost 메서드의 두 번째 파리미터를 이용해야 한다.
+이 파라미터에 대해 getWriter라는 메서드를 호출하면 printWriter 타입의 객체가 리턴되는데, 그 객체에 대해 print, println, printf 등의 메서드를 호출하면 웹 브라워저로 HTML 코드를 출력할 수 있다.
+
+이 밖에도 지켜야 할 규칙이 많이 있지만, 이 세가지가 가장 기본적인 것들이다.
+
+
+import	javax.servlet.*;
+import	javax.servlet.http.*;
+import	java.io.*;
+public class HundredServlet extends HttpServlet {
+	public void doGet(HttpServletRequest request, HttpServletRespons response) 
+					throws ServletException, IOException {
+		PrintWriter out = response.getWriter();
+		out.println("<HTML>");
+		out.println("<HEAD><TITLE>Sum Of 1 To 100</TITLE></HEAD>");
+		out.println("<BODY>");
+		int total = 0;
+		for(int cnt = 1; cnt <= 100; cnt++)
+			total += cnt;
+		out.println("1 + 2 + 3 + ... + 100 = " + total);
+		out.println("</BODY>");
+		out.println("</HTML>");
+	}
+}
+
+
+<서블릿 기술의 장점>
+서블릿 기술이 다른 웹 애플리케이션 기술보다 나은 점은 무엇인가?
+서블릿 기술은 자바를 기반으로 하기 때문에 자바의 장점을 그대로 물려받는다.
+자바의 플랫폼 독립성은 서블릿 클래스의 실행 코드(컴파일 결과물)를 다양한 컴퓨터와 운영체제에 옮겨서 그대로 사용할 수 있게 한다.
+자바의 또 다른 장점은 네트워크 환경에서 보안이 용이하고, 프로그래밍 언어 수준에서 멀티스레드 기능이 지원된다는 것이다.
+
+<서블릿 기술의 단점>
+프로그래밍 작업의 효율성을 떨어뜨린다.
+이것은 HTML 코드가 자바 코드안으로 들어가는 구조로 인한 것이다.
+이런 구조는 서블릿 클래스가 출력하는 동적 HTML 문서의 구조를 이해하기 어렵게 만들고, 웹 페이지의 디자인 작업을 위해서도 소스 코드에 손을 대개 만드는 비효율성을 낳는다.
+
+이런 이유로 인해 얼마 뒤 자바의 유용한 장점을 살리면서 서블릿 기술의 단점을 보완하는 새로운 기술이 개발되었는데 그것이 바로 JSP이다.
+
+
+
+-------------------------------------------------------------------------------
+[UTF-8]
+ECLIPSE의 설정에서 아래 항목의 encoding 타입을 utf-8로 변경한다.
+GENERAL -> workspace
+JASON -> jason files
+WEB -> css files, html files, jsp files
+XML -> xml files
+-------------------------------------------------------------------------------
+
+[JSP 기술]
+JSP(Java Server Page)도 서블릿과 마찬가지로 자바를 기반으로 하는 웹 애플리케이션 프로그래밍 기술입니다.
+
+JSP 페이지는 서블릿 클래스와 반대로 HTML 문서에 자바 코드가 삽입되는 구조이다.
+
+<% %>  스크립틀릿
+<% %> 사이에는 자바 명령문(들)을 쓸 수 있다.
+이 명령문들은 웹 서버에 의해 일반 자바 프로그램과 똑같은 방법으로 실행된다.
+
+<%= %> 익스프레션 (expression)
+<%= %> 사이에는 자바 식을 쓸 수 있다.
+이 식은 웹 서버 쪽에서 계산되고 그 결과만 웹 브라우저로 전송된다.
+
+
+JSP 페이지는 서블릿 클래스와 달리 컴파일 과정이나 등록 과정이 필요하지 않다.
+텍스트 에디터로 소스 코드를 작성해서 웹 서버에 속한 디렉토리에 저장해 놓기만 하면 된다.
+
+요즘은 JSP 기술과 서블릿 기술을 혼용한 새로운 프로그래밍 방법이 권장되고 있다.
+ㅍ로그램의 기능을 구현하는 복잡한 로직은 서블릿 클래스 안에 기술하고, 그 결과를 가져다가 출력하는 일만 JSP 페이지가 담당하도록 만드는 방법이다.
+
+
+public class HundredServlet extends HttpServlet {
+	public void doGet(HttpServletRequest request, HttpServletRespons response) 
+					throws ServletException, IOException {
+		int total = 0;
+		for(int cnt = 1; cnt <= 100; cnt++)
+			total += cnt;
+		request.setAttribute("result", total);
+		RequestDispatcher rd 
+			= request.getRequestDispatcher("Hundred.jsp");
+			rd.forward(request, response);
+	}
+}
+
+<HTML>
+<HEAD><TITLE>Sum Of 1 To 100</TITLE></HEAD>
+<BODY>
+1부터 100까지의 합 : ${result}
+</BODY>
+</HTML>
+
+[JSP 사용 준비]
+JDK 설치
+APACHE TOMCAT 설치
+
+netstat -na => 네트워크 상태를 보여준다(프로토콜, 로컬주소, 포트번호......)
+
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
+[JSP]
+JSP의 문법에는 3가지 형태가 있다.
+1. 스크립틀릿(scriptlet)
+<% %>  스크립틀릿
+<%@ %> 지시자 (directive)
+<%= %> 익스프레션 (expression)
+
+2. 익스프레션 언어 (expression language)
+
+3. 액션 (action)
+
+
+[선언부]
+<%! %> 변수 선언이나 메서드 선언을 쓸 수 있다.
+<%! final static int MAX = 10000;  %>
+<%! private int add(int n1, int n2) {
+	...........
+	return sum; }
+%>
+지시자(directive)는 JSP의 다른 문법들(스크립팅 요소, 익스프레션 언어, 액션)과는 다른 목적으로 사용되는 문법.
+웹컨테이너가 JSP페이지를 서블릿 클래스로 변환할 때 필요한 여러 가지 정보들을 기술하기 위해서 사용하는 문법이다.
+  
+[JSP 페이지에서 사용할 수 있는 지시자]
+-page 지시자
+-include 지시자
+-taglib 지시자
+<%@ 로 시작해서 %> 로 끝나야 한다.
+<%@ 바로 다음에는 지시자 이름이 와야한다.
+    지시자 이름 다음에는 여러가지 attribute가 올 수 있다.
+	
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
+contentType 
+  JSP 페이지가 생성하는 문서의 종류와 그 문서를 웹 브라우저로 전송할 때 사용되는 인코딩 타입
+language
+	스크립팅 요소안에서 사용할 프로그래밍 언어.
+pageEncoding
+	JSP 페이지의 인코딩 타입.
+import
+	스크립팅 요소 안에서 사용할 자바 클래스와 인터페이스를 임포트하기 위해 사용.
+
+
+[JSP 페이지가 자동으로 임포트하는 패키지]
+JSP 페이지가 서블릿 클래스로 변환될 때 자동으로 임포트되므로 import 어트리뷰트에 쓰지 않아도 된다.
+  -javax.sevlet
+  -javax.servlet.jsp
+  -javax.servlet.http
+  
+[include 지시자]
+다른 JSP 페이지나 HTML 문서를 불러다가 현재 JSP 페이지의 일부로 만들기 위해서 사용한다.
+  불러올 대상은 file이라는 어트리뷰트를 이용해서 지정할 수 있으며, 이 어트리뷰트 값은 이 지시자가 속하는 JSP페이지를 기준으로 한 상대적인 URL로 해석된다.
+  
+[taglib 지시자]
+액션태그를 사용할 때 필요하다.
+
+[주석]
+<!-- HTML 주석 -->
+
+/* JAVA 주석 */
+// JAVA 주석
+<%-- JSP 주석 --%>
+
+
+C:\workspace\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\work\Catalina\localhost\JspStudy\org\apache\jsp\base
+
+[JSP 페이지의 내장 변수]
+일반적인 자바 프로그램에서는 변수를 사용하기 전에 반드시 선언을 해야 한다.
+
+JSP 페이지의 내장변수(implict variable)는 선언하지 않고도 사용할 수 있다.
+  웹 컨테이너가 JSP 페이지를 서블릿 클래스로 변환할 때 자동으로 선언해 주기 때문이다.
+[JSP 페이지에서 사용할 수 있는 내장 변수]
+request, response, out, application, config,
+pageContext, session, page, exception
+
+[request 내장 변수]
+서블릿 클래스에 있는 doGet, doPost 메서드의 첫 번째 파라미터와 동일한 역할을 하고, 
+타입도 동일하게 javax.servlet.http.HttpServletRequest이다. 
+그래서 그 파라미터와 똑같은 방법으로 사용할 수 있다.
+  
+[out 내장 변수]
+JSP 페이지에서 출력하는 데이터는 out.print, out.println메서드를 호출할 경우뿐만 아니라 HTML 코드나 익스프레션을 통해 출력할 경우에도 모두 out 내장 변수를 통해 출력된다.
+이 내장 변수는 출력하는 데이터를 일단 퍼버에 저장했다가 한꺼번에 전송하는데, 그 버퍼의 크기는 웹 컨테이너의 종류에 따라 달라질 수 있다.
+
+autoFlush 속성
+out 내장 변수의 출력 버퍼는 데이터가 가득 차면 버퍼에 있는 모든 내용을 자동으로 웹 브라우저로 전송한다.
+이것을 auto flush(오토 플러시)기능이라고 한다.
+
+
+[response 내장 변수]
+response 내장 변수는
+서블릿 클래스에 있는 doGet, doPost 메서드의 두 번째
+  파라미터와 동일한 역할을 하고, 타입도 동일하게
+  javax.servlet.http.HttpServletResponse이다. 
+  
+sendRedirect 메서드는 현재 실행 중인 JSP 페이지의 실행을
+  중단하고 다른 웹 자원이 대신 호출되록 만드는 기능을 
+  한다.
+  response.sendRedirect("http://www.daum.net");
+sendRedirect 메서드의 호출 전과 호출 후에 웹 브라우저로 
+  데이터를 출력하면 않된다.
+
+[application 내장 변수]
+application 내장 변수는 웹 어플리케이션에 관련된 여러가지 기능을 제공한다.
+  여기서 말하는 웹 어플리케이션이란 서블릿 클래스나 JSP 페이지와 같은 웹 프로그램을 말하는 것이 아니라, 특정 웹 어플리케이션 디렉토리에 속하는 모든 웹 자원들의 집합을 의미한다.
+
+  
+[파일 입출력]
+JSP 페이지에서 파일을 읽기 위해서는 
+  java.io.FileReader 클래스 나 java.io.FileInputStream
+  클래스를 이용하면 된다.
+
+파일을 쓰기 위해서는
+  java.io.FileWriter, java.io.PrintWriter, java.io.FileOutputStream등의 클래스를 이용한다.
+  
+
+C:\workspace\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\JspStudy\WEB-INF\BBS
+
+
+int age = Integer.parseInt(request.getParameter("age"));
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
