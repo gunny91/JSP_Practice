@@ -1,0 +1,192 @@
+[MySQL]
+https://dev.mysql.com/downloads/mysql/
+
+경로를 환경에 설정 한 후에
+cmd 창에서
+C:\Users\TJ>mysql -u root -p 로 접속한다.
+
+<새로운 db를 만든다.>
+C:\Users\TJ>mysqladmin -u root -p create testdb
+Enter password: ********
+
+<새로운 유저를 만든다>
+mysql> grant select, insert, update, delete, create, alter, drop
+    -> on testdb.* to 'test'@'localhost'
+    -> identified by '1111';
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+mysql> grant select, insert, update, delete, create, alter, drop
+    -> on testdb.* to 'test'@'%'
+    -> identified by '1111';
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+C:\Users\TJ>cd \
+
+C:\>cd progr*
+
+C:\Program Files>cd mysql se*
+The filename, directory name, or volume label syntax is incorrect.
+
+C:\Program Files>dir
+ 
+C:\Program Files>cd MySQL
+
+C:\Program Files\MySQL>cd mysql se*
+
+C:\Program Files\MySQL\MySQL Server 5.7>cd bin
+
+C:\Program Files\MySQL\MySQL Server 5.7\bin>ls
+'ls' is not recognized as an internal or external command,
+operable program or batch file.
+
+C:\Program Files\MySQL\MySQL Server 5.7\bin>mysql
+ERROR 1045 (28000): Access denied for user 'ODBC'@'localhost' (using password: NO)
+
+C:\Program Files\MySQL\MySQL Server 5.7\bin>dir my*
+ Volume in drive C has no label.
+ Volume Serial Number is 3EBA-D5F6
+
+ Directory of C:\Program Files\MySQL\MySQL Server 5.7\bin
+
+06/02/2020  06:17 AM         5,709,424 myisamchk.exe
+06/02/2020  06:18 AM         3,761,264 myisamlog.exe
+06/02/2020  06:18 AM         5,625,456 myisampack.exe
+06/02/2020  06:18 AM         5,605,496 myisam_ftdump.exe
+06/02/2020  06:18 AM         6,190,696 mysql.exe
+06/02/2020  06:18 AM         6,094,960 mysqladmin.exe
+06/02/2020  06:18 AM         6,328,432 mysqlbinlog.exe
+06/02/2020  06:18 AM         6,119,024 mysqlcheck.exe
+06/02/2020  06:13 AM        41,833,576 mysqld.exe
+06/02/2020  06:18 AM         6,153,840 mysqldump.exe
+06/02/2020  01:47 PM             8,082 mysqldumpslow.pl
+06/02/2020  01:47 PM            28,339 mysqld_multi.pl
+06/02/2020  06:18 AM         6,087,792 mysqlimport.exe
+06/02/2020  06:18 AM         6,701,680 mysqlpump.exe
+06/02/2020  06:18 AM         6,085,232 mysqlshow.exe
+06/02/2020  06:18 AM         6,103,664 mysqlslap.exe
+06/02/2020  06:18 AM         7,976,048 mysqlxtest.exe
+06/02/2020  01:47 PM             7,687 mysql_config.pl
+06/02/2020  06:18 AM         5,375,104 mysql_config_editor.exe
+06/02/2020  06:18 AM        22,420,600 mysql_embedded.exe
+06/02/2020  06:18 AM         5,370,488 mysql_plugin.exe
+06/02/2020  06:18 AM         6,082,704 mysql_secure_installation.exe
+06/02/2020  06:18 AM         5,420,160 mysql_ssl_rsa_setup.exe
+06/02/2020  06:18 AM         3,503,744 mysql_tzinfo_to_sql.exe
+06/02/2020  06:18 AM         6,765,688 mysql_upgrade.exe
+06/02/2020  06:18 AM         5,358,720 my_print_defaults.exe
+              26 File(s)    186,717,900 bytes
+               0 Dir(s)  121,323,790,336 bytes free
+
+C:\Program Files\MySQL\MySQL Server 5.7\bin>mysql -V
+mysql  Ver 14.14 Distrib 5.7.31, for Win64 (x86_64)
+
+C:\Program Files\MySQL\MySQL Server 5.7\bin>mysql -u root -p
+Enter password: *********
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 15
+Server version: 5.7.31-log MySQL Community Server (GPL)
+
+Copyright (c) 2000, 2020, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+
+mysql> exit
+Bye
+
+C:\Program Files\MySQL\MySQL Server 5.7\bin>mysqladmin -u root -p create testDB
+Enter password: *********
+
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| sakila             |
+| sys                |
+| testdb             |
+| world              |
++--------------------+
+7 rows in set (0.00 sec)
+
+mysql> select * from tableName limit 10;
+ERROR 1146 (42S02): Table 'testdb.tablename' doesn't exist
+mysql> exit
+Bye
+
+C:\Program Files\MySQL\MySQL Server 5.7\bin>mysql -u root -p
+Enter password: *********
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 18
+Server version: 5.7.31-log MySQL Community Server (GPL)
+
+Copyright (c) 2000, 2020, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> grant select, insert, update, delete, create, alter, drop
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+mysql> grant select, insert, update, delete, create, alter, drop on testDB.* to 'test'@localhost identified by '294079814';
+Query OK, 0 rows affected, 1 warning (0.01 sec)
+
+mysql>select user();
+
+[MySQL]
+https://dev.mysql.com/downloads/mysql/
+
+경로를 환경에 설정 한 후에
+cmd 창에서
+C:\Users\TJ>mysql -u root -p 로 접속한다.
+
+<새로운 db를 만든다.>
+C:\Users\TJ>mysqladmin -u root -p create testdb
+Enter password: ********
+
+<새로운 유저를 만든다>
+mysql> grant select, insert, update, delete, create, alter, drop
+    -> on testdb.* to 'test'@'localhost'
+    -> identified by '1111';
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+mysql> grant select, insert, update, delete, create, alter, drop
+    -> on testdb.* to 'test'@'%'
+    -> identified by '1111';
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+show databases;
+-- select * from tab; 오라클에서 테이블 목록을 볼 때
+show tables;
+create table member (
+id 		varchar(50) character set utf8 not null primary key,
+passwd 	varchar(16) character set utf8 not null,
+name	varchar(10) character set utf8 not null,
+reg_date	datetime not null,
+tel		varchar(20) character set utf8 not null,
+address varchar(100) character set utf8 not null
+);
+
+desc member;
+insert into member 
+values ('a100', '1111', '희동이', now(), '010-1234-5678', '서울 종로구 관철동');
+select * from member;
+
+
+
+
+
+
+
+
+
+
+
